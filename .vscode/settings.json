@@ -1,0 +1,7 @@
+{
+  "editor.defaultFormatter": "ms-python.black-formatter",
+  "black-formatter.args": ["--line-length", "88"],
+  "editor.formatOnSave": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 4
+}
