@@ -26,10 +26,10 @@ else
 fi
 
 # First time setup: uncomment the following lines and run the script
-# if [ -f "requirements.txt" ]; then
-#     echo "📦 Installing dependencies..."
-#     pip3 install -r requirements.txt
-# fi
+if [ -f "requirements.txt" ]; then
+    echo "📦 Installing dependencies..."
+    pip3 install -r requirements.txt
+fi
 
 # Start FastAPI with Uvicorn
 echo "🚀 Starting FastAPI app with Uvicorn..."
