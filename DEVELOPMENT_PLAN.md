@@ -140,7 +140,7 @@ src/
 
 1. **Setup Supabase**
 
-   - Create tables with pgvector extension
+   - ~~Create tables with pgvector extension~~
    - Set up Supabase Storage bucket for resumes
    - Configure API keys
 
