@@ -1,7 +1,5 @@
 from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
-from slowapi import Limiter
-from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 
 from vembedding.ai.embedding import (
@@ -9,15 +7,16 @@ from vembedding.ai.embedding import (
     MIN_TOKEN_LENGTH,
     validate_text_length,
 )
+from vembedding.jobs.routes import router as jobs_router
+from .rate_limiter import limiter
 
-# initialize rate limiter
-limiter = Limiter(key_func=get_remote_address)
 
 # initialize app
 app = FastAPI()
 app.state.limiter = limiter
 
 
+# handle rate limit exceeded exceptions
 @app.exception_handler(RateLimitExceeded)
 def rate_limit_exceeded(request: Request, exc: RateLimitExceeded):
     """Rate limit exceeded exception handler"""
@@ -38,8 +37,8 @@ async def root():
     return {"message": "Hello World"}
 
 
-@app.get("/check-token-size", tags=["Debug Endpoints"])
 @limiter.limit("10/minute")
+@app.get("/check-token-size", tags=["Debug Endpoints"])
 def check_token_size(request: Request, text: str):
     """Debug endpoint to check the number of tokens in a text"""
     token_count = validate_text_length(text)
@@ -48,3 +47,7 @@ def check_token_size(request: Request, text: str):
         "token_count": token_count,
         "is_valid": token_count >= MIN_TOKEN_LENGTH and token_count <= MAX_TOKEN_LENGTH,
     }
+
+
+# include routers
+app.include_router(jobs_router)
