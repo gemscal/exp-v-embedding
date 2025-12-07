@@ -7,6 +7,11 @@ from vembedding.config import settings
 security = HTTPBearer()
 
 
+def get_supabase_client_no_auth() -> Client:
+    """Create a supabase client without authentication"""
+    return create_client(settings.SUPABASE_URL, settings.SUPABASE_ANON_KEY)
+
+
 def get_supabase_client(
     credentials: HTTPAuthorizationCredentials = Depends(security),
 ) -> Client:
