@@ -3,6 +3,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from supabase import Client, create_client
 
 from vembedding.config import settings
+from vembedding.jobs.service import JobService, job
 
 security = HTTPBearer()
 
@@ -45,3 +46,8 @@ def get_user_id(
         )
 
     return user.user.id
+
+
+def get_job_service() -> JobService:
+    """Create job service instance"""
+    return job
