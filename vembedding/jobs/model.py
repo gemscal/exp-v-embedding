@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime
 from uuid import UUID
 
@@ -26,6 +26,7 @@ class JobResponse(JobBase):
     id: UUID
     created_at: datetime
     updated_at: datetime
+    embedding: Optional[List[float]] = None
 
     class Config:
         from_attributes = True
