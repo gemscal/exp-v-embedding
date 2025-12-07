@@ -20,9 +20,7 @@ class JobService:
 
         # generate embedding for the job post
         try:
-            embedding = await openai_generate_embedding(
-                f"{payload.title} {payload.description} {payload.requirements}"
-            )
+            embedding = await openai_generate_embedding(combine_text)
             if not embedding:
                 raise ValueError("Embedding generation returned empty result")
 
