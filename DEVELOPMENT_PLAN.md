@@ -142,19 +142,19 @@ src/
 
    - ~~Create tables with pgvector extension~~
    - Set up Supabase Storage bucket for resumes
-   - Configure API keys
+   - ~~Configure API keys~~
 
 2. **Backend Core**
 
-   - Implement database models
-   - Set up Supabase client
-   - Create vector store utilities
+   - ~~Implement database models~~
+   - ~~Set up Supabase client~~
+   - ~~Create vector store utilities~~
    - Implement job and application services
    - Create API routes
 
 3. **AI Integration**
 
-   - Implement embedding generation
+   - ~~Implement embedding generation~~
    - Build semantic search functionality
    - Create conversational AI service
    - Add chat API endpoint
