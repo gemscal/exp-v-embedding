@@ -1,2 +1,5 @@
 pydantic-settings
 supabase
+openai
+tiktoken
+slowapi
