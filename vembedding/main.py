@@ -1,3 +1,4 @@
+import logging
 from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
 from slowapi.errors import RateLimitExceeded
@@ -10,6 +11,11 @@ from vembedding.ai.embedding import (
 from vembedding.jobs.routes import router as jobs_router
 from .rate_limiter import limiter
 
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO, format="%(levelname)s - %(message)s - %(asctime)s - %(name)s"
+)
 
 # initialize app
 app = FastAPI()
@@ -33,7 +39,7 @@ def rate_limit_exceeded(request: Request, exc: RateLimitExceeded):
 
 
 @app.get("/")
-async def root():
+def root():
     return {"message": "Hello World"}
 
 

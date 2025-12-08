@@ -17,7 +17,6 @@ async def openai_generate_embedding(text: str) -> List[float]:
         model="text-embedding-3-small",
         input=text,
     )
-    print(response)
     return response.data[0].embedding
 
 

@@ -1,3 +1,4 @@
+import logging
 from fastapi import HTTPException, status
 from postgrest import APIError
 from pydantic import ValidationError
@@ -17,7 +18,7 @@ class JobService:
         combine_text = f"{payload.title} {payload.description} {payload.requirements}"
         token_count = validate_text_length(combine_text)
 
-        print(f"Token count: {token_count}")
+        logging.info(f"Token count: {token_count}")
 
         # generate embedding for the job post
         try:

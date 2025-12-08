@@ -26,7 +26,7 @@ class JobResponse(JobBase):
     id: UUID
     created_at: datetime
     updated_at: datetime
-    embedding: Optional[List[float]] = None
+    # embedding: Optional[List[float]] = None
 
     class Config:
         from_attributes = True
