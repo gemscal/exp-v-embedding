@@ -2,12 +2,16 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from supabase import Client, create_client
 
-from vembedding.config import settings
+from vembedding.applicants.service import ApplicantService, applicant
 from vembedding.jobs.service import JobService, job
+from vembedding.config import settings
 
 security = HTTPBearer()
 
 
+# ========================#
+# Supabase Dependencies   #
+# ========================#
 def get_supabase_client_no_auth() -> Client:
     """Create a supabase client without authentication"""
     return create_client(settings.SUPABASE_URL, settings.SUPABASE_ANON_KEY)
@@ -48,6 +52,14 @@ def get_user_id(
     return user.user.id
 
 
+# ========================#
+# Service Dependencies    #
+# ========================#
 def get_job_service() -> JobService:
     """Create job service instance"""
     return job
+
+
+def get_applicant_service() -> ApplicantService:
+    """Create applicant service instance"""
+    return applicant
