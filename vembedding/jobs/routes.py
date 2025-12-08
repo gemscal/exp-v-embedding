@@ -7,7 +7,7 @@ from .service import JobService
 from .model import JobResponse, JobCreate
 
 router = APIRouter(
-    prefix="/jobs",
+    prefix="/api/jobs",
     tags=["jobs"],
 )
 

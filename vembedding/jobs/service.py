@@ -11,7 +11,11 @@ from .model import JobCreate, JobResponse
 class JobService:
     TABLE_NAME = "jobs"
 
-    async def create_job(self, payload: JobCreate, supabase: Client) -> JobResponse:
+    async def create_job(
+        self,
+        payload: JobCreate,
+        supabase: Client,
+    ) -> JobResponse:
         """Create a new job"""
 
         # safety checks
