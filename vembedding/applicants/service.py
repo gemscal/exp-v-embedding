@@ -50,7 +50,7 @@ class ApplicantService:
                 detail=f"Error storing applicant: {e}",
             )
 
-        return ApplicantResponse(**response.data[0])
+        return response.data[0]
 
 
 applicant = ApplicantService()

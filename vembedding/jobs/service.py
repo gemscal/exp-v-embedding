@@ -51,7 +51,7 @@ class JobService:
                 detail=f"Error storing job post: {e}",
             )
 
-        return JobResponse(**response.data[0])
+        return response.data[0]
 
 
 job = JobService()
