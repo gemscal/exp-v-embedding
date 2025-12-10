@@ -28,5 +28,9 @@ class JobResponse(JobBase):
     updated_at: datetime
     # embedding: Optional[List[float]] = None
 
+
+class SearchApplicants(BaseModel):
+    query: str
+
     class Config:
         from_attributes = True

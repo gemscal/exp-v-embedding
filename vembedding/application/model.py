@@ -7,7 +7,7 @@ from pydantic import BaseModel
 class ApplicationBase(BaseModel):
     job_id: UUID
     applicant_id: UUID
-    status: str
+    status: Optional[str] = None
 
 
 class ApplicationCreate(ApplicationBase):

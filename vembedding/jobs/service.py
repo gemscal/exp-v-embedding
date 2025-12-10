@@ -1,11 +1,12 @@
 import logging
+import time
 from fastapi import HTTPException, status
 from postgrest import APIError
 from supabase import Client
 
 from vembedding.constant import TableNamesConst
 from vembedding.ai.embedding import openai_generate_embedding, validate_text_length
-from .model import JobCreate, JobResponse
+from .model import JobCreate, JobResponse, SearchApplicants
 
 
 class JobService:
@@ -52,6 +53,63 @@ class JobService:
             )
 
         return response.data[0]
+
+    async def search_applicants(
+        self,
+        job_id: str,
+        payload: SearchApplicants,
+        supabase: Client,
+    ):
+        """Search applicants inside a job post"""
+
+        try:
+            job = (
+                supabase.table(self.TABLE_NAME).select("id").eq("id", job_id).execute()
+            )
+            if not job.data:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail=f"Job with id {job_id} not found",
+                )
+
+            # start_total = time.time()
+            # start_embedding = time.time()
+            query_embedding = await openai_generate_embedding(payload.query)
+            # embedding_time = (time.time() - start_embedding) * 1000
+            # print(f"⏱️ Embedding generation: {embedding_time:.0f}ms")
+            if not query_embedding:
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Error generating query embedding",
+                )
+
+            # start_db = time.time()
+            response = supabase.rpc(
+                "search_applicants_for_job",
+                {
+                    "job_id_param": job_id,
+                    "query_embedding": query_embedding,
+                },
+            ).execute()
+            # db_time = (time.time() - start_db) * 1000
+            # print(f"⏱️ Database query: {db_time:.0f}ms")
+            if not response.data:
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Error searching applicants inside job",
+                )
+
+        except APIError as e:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Database error: {e}",
+            )
+        except HTTPException as e:
+            raise
+
+        # total_time = (time.time() - start_total) * 1000
+        # print(f"⏱️ Total time: {total_time:.0f}ms")
+        return response.data
 
 
 job = JobService()
