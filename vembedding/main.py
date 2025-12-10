@@ -25,7 +25,7 @@ app.state.limiter = limiter
 
 # handle rate limit exceeded exceptions
 @app.exception_handler(RateLimitExceeded)
-def rate_limit_exceeded(request: Request, exc: RateLimitExceeded):
+def rate_limit_exceeded(request: Request, exc: RateLimitExceeded) -> JSONResponse:
     """Rate limit exceeded exception handler"""
     return JSONResponse(
         status_code=status.HTTP_429_TOO_MANY_REQUESTS,
@@ -44,8 +44,8 @@ def root():
     return {"message": "Hello World"}
 
 
-@limiter.limit("10/minute")
 @app.get("/check-token-size", tags=["Debug Endpoints"])
+@limiter.limit("10/minute")
 def check_token_size(request: Request, text: str):
     """Debug endpoint to check the number of tokens in a text"""
     token_count = validate_text_length(text)
