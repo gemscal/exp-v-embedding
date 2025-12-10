@@ -3,12 +3,13 @@ from fastapi import HTTPException, status
 from postgrest import APIError
 from supabase import Client
 
+from vembedding.constant import TableNamesConst
 from vembedding.ai.embedding import openai_generate_embedding, validate_text_length
 from vembedding.applicants.model import ApplicantCreate, ApplicantResponse
 
 
 class ApplicantService:
-    TABLE_NAME = "applicants"
+    TABLE_NAME = TableNamesConst.APPLICANTS
 
     async def create_applicant(
         self,

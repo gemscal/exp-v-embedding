@@ -3,12 +3,13 @@ from fastapi import HTTPException, status
 from postgrest import APIError
 from supabase import Client
 
+from vembedding.constant import TableNamesConst
 from vembedding.ai.embedding import openai_generate_embedding, validate_text_length
 from .model import JobCreate, JobResponse
 
 
 class JobService:
-    TABLE_NAME = "jobs"
+    TABLE_NAME = TableNamesConst.JOBS
 
     async def create_job(
         self,

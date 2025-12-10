@@ -2,11 +2,12 @@ from fastapi import HTTPException, status
 from postgrest import APIError
 from supabase import Client
 
+from vembedding.constant import TableNamesConst
 from vembedding.application.model import ApplicationCreate, ApplicationResponse
 
 
 class ApplicationService:
-    TABLE_NAME = "applications"
+    TABLE_NAME = TableNamesConst.APPLICATIONS
 
     async def create_application(
         self,
@@ -16,7 +17,12 @@ class ApplicationService:
         """Create a new application"""
 
         try:
-            job = supabase.table("jobs").select("id").eq("id", payload.job_id).execute()
+            job = (
+                supabase.table(TableNamesConst.JOBS)
+                .select("id")
+                .eq("id", payload.job_id)
+                .execute()
+            )
             if not job.data:
                 raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND,
@@ -24,7 +30,7 @@ class ApplicationService:
                 )
 
             applicant = (
-                supabase.table("applicants")
+                supabase.table(TableNamesConst.APPLICANTS)
                 .select("id")
                 .eq("id", payload.applicant_id)
                 .execute()

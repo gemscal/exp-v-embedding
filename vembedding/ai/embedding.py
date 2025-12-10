@@ -4,8 +4,10 @@ from openai import AsyncOpenAI
 from tiktoken import get_encoding
 
 from vembedding.config import settings
+from vembedding.constant import EmbeddingModelsConst
 
 client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
+EMBEDDING_MODEL = EmbeddingModelsConst.OPENAI
 ENCODING = get_encoding("cl100k_base")
 MAX_TOKEN_LENGTH = 8000
 MIN_TOKEN_LENGTH = 10
@@ -14,7 +16,7 @@ MIN_TOKEN_LENGTH = 10
 async def openai_generate_embedding(text: str) -> List[float]:
     """openAI generate embedding"""
     response = await client.embeddings.create(
-        model="text-embedding-3-small",
+        model=EMBEDDING_MODEL,
         input=text,
     )
     return response.data[0].embedding
