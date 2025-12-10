@@ -3,6 +3,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from supabase import Client, create_client
 
 from vembedding.applicants.service import ApplicantService, applicant
+from vembedding.application.service import ApplicationService, application
 from vembedding.jobs.service import JobService, job
 from vembedding.config import settings
 
@@ -63,3 +64,8 @@ def get_job_service() -> JobService:
 def get_applicant_service() -> ApplicantService:
     """Create applicant service instance"""
     return applicant
+
+
+def get_application_service() -> ApplicationService:
+    """Create application service instance"""
+    return application
