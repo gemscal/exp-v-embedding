@@ -12,8 +12,8 @@ router = APIRouter(
 )
 
 
-@limiter.limit("1/minute")
 @router.post("/", response_model=JobResponse, status_code=status.HTTP_201_CREATED)
+@limiter.limit("1/minute")
 async def create_job(
     request: Request,
     payload: JobCreate,
