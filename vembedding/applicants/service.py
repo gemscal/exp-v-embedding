@@ -18,7 +18,7 @@ class ApplicantService:
     ) -> ApplicantResponse:
         """Create a new applicant record"""
 
-        # safeety checks
+        # safety checks
         combine_text = f"{payload.name} {payload.email} {payload.resume_text} {payload.skills} {payload.experience}"
         token_count = validate_text_length(combine_text)
 

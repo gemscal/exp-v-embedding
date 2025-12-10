@@ -50,7 +50,7 @@ class ApplicationService:
             )
             if existing_application.data:
                 raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
+                    status_code=status.HTTP_409_CONFLICT,
                     detail="Application already exists",
                 )
 
