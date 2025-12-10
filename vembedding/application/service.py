@@ -9,7 +9,7 @@ from vembedding.application.model import ApplicationCreate, ApplicationResponse
 class ApplicationService:
     TABLE_NAME = TableNamesConst.APPLICATIONS
 
-    async def create_application(
+    def create_application(
         self,
         payload: ApplicationCreate,
         supabase: Client,

@@ -17,11 +17,11 @@ router = APIRouter(
     "/", response_model=ApplicationResponse, status_code=status.HTTP_201_CREATED
 )
 @limiter.limit("1/minute")
-async def create_application(
+def create_application(
     request: Request,
     payload: ApplicationCreate,
     supabase: Client = Depends(get_supabase_client_no_auth),
     service: ApplicationService = Depends(get_application_service),
 ) -> ApplicationResponse:
     """Create a new application"""
-    return await service.create_application(payload, supabase)
+    return service.create_application(payload, supabase)

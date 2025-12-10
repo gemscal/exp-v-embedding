@@ -10,6 +10,7 @@ from vembedding.ai.embedding import (
 )
 from vembedding.jobs.routes import router as jobs_router
 from vembedding.applicants.routes import router as applicants_router
+from vembedding.application.routes import router as applications_router
 from .rate_limiter import limiter
 
 
@@ -59,3 +60,4 @@ def check_token_size(request: Request, text: str):
 # include routers
 app.include_router(jobs_router)
 app.include_router(applicants_router)
+app.include_router(applications_router)
