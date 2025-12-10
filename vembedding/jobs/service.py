@@ -1,7 +1,6 @@
 import logging
 from fastapi import HTTPException, status
 from postgrest import APIError
-from pydantic import ValidationError
 from supabase import Client
 
 from vembedding.ai.embedding import openai_generate_embedding, validate_text_length
@@ -45,7 +44,7 @@ class JobService:
             if not response.data:
                 raise ValueError("Database insertion returned empty result")
 
-        except (APIError, ValueError, ValidationError) as e:
+        except (APIError, ValueError) as e:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Error storing job post: {e}",
