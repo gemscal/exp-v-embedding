@@ -19,4 +19,10 @@ class RateLimitsConst:
 class EmbeddingModelsConst:
     """Embedding models for the application"""
 
-    OPENAI = "text-embedding-3-small"
+    OPENAI_EMBEDDING_MODEL = "text-embedding-3-small"
+
+
+class LLMModelsConst:
+    """LLM models for the application"""
+
+    OPENAI_LLM_MODEL = "gpt-4o-mini"

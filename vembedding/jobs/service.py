@@ -5,6 +5,7 @@ from postgrest import APIError
 from supabase import Client
 
 from vembedding.constant import TableNamesConst
+from vembedding.ai.llm import generate_search_explanation
 from vembedding.ai.embedding import openai_generate_embedding, validate_text_length
 from .model import JobCreate, JobResponse, SearchApplicants
 
@@ -63,9 +64,7 @@ class JobService:
         """Search applicants inside a job post"""
 
         try:
-            job = (
-                supabase.table(self.TABLE_NAME).select("id").eq("id", job_id).execute()
-            )
+            job = supabase.table(self.TABLE_NAME).select("*").eq("id", job_id).execute()
             if not job.data:
                 raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND,
@@ -99,6 +98,17 @@ class JobService:
                     detail="Error searching applicants inside job",
                 )
 
+            # get explanation based on the user query
+            job_info = job.data[0]
+            candidates = response.data
+            ai_analysis = None
+            if candidates:
+                ai_analysis = await generate_search_explanation(
+                    job_info=job_info,
+                    candidates=candidates,
+                    query=payload.query,
+                )
+
         except APIError as e:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -109,7 +119,14 @@ class JobService:
 
         # total_time = (time.time() - start_total) * 1000
         # print(f"⏱️ Total time: {total_time:.0f}ms")
-        return response.data
+        return {
+            "job_id": job_id,
+            "job_title": job_info["title"],
+            "query": payload.query,
+            "total_candidates": len(candidates),
+            "results": candidates,
+            "ai_analysis": ai_analysis,
+        }
 
 
 job = JobService()

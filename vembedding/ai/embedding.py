@@ -7,7 +7,7 @@ from vembedding.config import settings
 from vembedding.constant import EmbeddingModelsConst
 
 client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
-EMBEDDING_MODEL = EmbeddingModelsConst.OPENAI
+EMBEDDING_MODEL = EmbeddingModelsConst.OPENAI_EMBEDDING_MODEL
 ENCODING = get_encoding("cl100k_base")
 MAX_TOKEN_LENGTH = 8000
 MIN_TOKEN_LENGTH = 10
