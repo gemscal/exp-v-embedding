@@ -16,7 +16,7 @@ async def generate_search_explanation(
     query: str,
 ) -> Dict:
     """
-    Generate an AI-powered analysis report for candidate applicants.
+    Generate an AI-powered analysis report
     """
 
     system_prompt = """
